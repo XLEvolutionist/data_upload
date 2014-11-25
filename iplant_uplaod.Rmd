@@ -9,7 +9,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-This document details the process of receiving the Palmar Chico popultation of teosinte. The data arrived on two 3TB external hard-drives. The first thing to do before transferring the data to iPlant data store is to `md5` checksum all the files, so that once they are transfered we cna check the integrity of the file following the transfer. 
+This document details the process of receiving data for the Palmar Chico popultation of teosinte and uploading this data to iPlant. The data arrived on two 3TB external hard-drives. The first thing to do before transferring the data to iPlant data store is to `md5` checksum all the files, so that once they are transfered we can check the integrity of the file following the transfer. 
 
 In order to `md5` checksum all the files we can use a combination of unix `find` and the `ms5` algorithm. For example the following shell script will provide a list of files and their md5 checksums.
 ```
@@ -20,5 +20,15 @@ files=$(find /dir/ -type f -name "*.gz" -name -not ".*")
 for i in ${files}; do
   md5 $i
 done
+```
+
+I'm leaving this to run over night... It ran to about 1900 over night then another 200 in the next 10 mins. I used nohup, I wonder if nohup hangs when the computer sleeps as would have happened over night? Who knows!
+
+
+The transfer of the files is done using [iRODS icommands](https://wiki.irods.org/index.php/icommands). The [iput](https://wiki.irods.org/index.php/iput) function and a command similar to as given [here](https://pods.iplantcollaborative.org/wiki/display/DS/Using+iCommands#UsingiCommands-Uploadingmultiplefilesoradirectory%28withrecursion%29):
 
 ```
+iput -P -V -b -r -T localDirectory dataDirectory
+```
+
+
