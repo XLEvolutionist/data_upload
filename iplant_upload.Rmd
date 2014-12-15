@@ -11,6 +11,8 @@ vignette: >
 
 This document details the process of receiving data for the Palmar Chico popultation of teosinte and uploading this data to iPlant. The data arrived on two 3TB external hard-drives. The first thing to do before transferring the data to iPlant data store is to `md5` checksum all the files, so that once they are transfered we can check the integrity of the file following the transfer. 
 
+To begin with I am transfering the data from the first hard-drive (N# 1).
+
 In order to `md5` checksum all the files we can use a combination of unix `find` and the `ms5` algorithm. For example the following shell script will provide a list of files and their md5 checksums.
 ```
 #/usr/bin/bash
@@ -25,10 +27,20 @@ done
 I'm leaving this to run over night... It ran to about 1900 over night then another 200 in the next 10 mins. I used nohup, I wonder if nohup hangs when the computer sleeps as would have happened over night? Who knows!
 
 
-The transfer of the files is done using [iRODS icommands](https://wiki.irods.org/index.php/icommands). The [irsync](https://wiki.irods.org/index.php/irsync) function is used. This has a number of advatages as rsync only moves over files that have changed or are not present.
-
+The transfer of the files is done using [iRODS icommands](https://wiki.irods.org/index.php/icommands). The [irsync](https://wiki.irods.org/index.php/irsync) function is used. This has a number of advatages as rsync only moves over files that have changed or are not present. Furthermore irsync hash checks every file to make sure it is all in good order.
 ```
 irsync -v -r folder_of_seq_data i:Newlocation_on_data_store
 ```
-the `i:folder` command tells irsync to move the folder to the datastore.
+the `i:folder` command tells irsync to move the folder to the iplant datastore.
 
+The second batch of data (the second hard-drive) was put added to the iPlant datastore in the same way as described above. 
+
+##Checking the files##
+
+A command like this:
+
+```
+find . -type f -name "*fastq.gz" -name not ".*" | wc -l
+```
+
+reveals there to be 9954 files on the external hard drive. After transfer using rsync and checking the directory in the iplant data store the same command returns the same number of files. So all of the files transfered to the data store. But what about the integretiy of the files?

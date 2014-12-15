@@ -10,7 +10,7 @@
 
 <meta name="author" content="Simon Renny-Byfield" />
 
-<meta name="date" content="2014-11-25" />
+<meta name="date" content="2014-12-01" />
 
 <title>Teosinte of Palmar Chico: Data Preparation and Upload to iPlant</title>
 
@@ -28,7 +28,7 @@
 <div id="header">
 <h1 class="title">Teosinte of Palmar Chico: Data Preparation and Upload to iPlant</h1>
 <h4 class="author"><em>Simon Renny-Byfield</em></h4>
-<h4 class="date"><em>2014-11-25</em></h4>
+<h4 class="date"><em>2014-12-01</em></h4>
 </div>
 
 
@@ -42,8 +42,9 @@ for i in ${files}; do
   md5 $i
 done</code></pre>
 <p>I’m leaving this to run over night… It ran to about 1900 over night then another 200 in the next 10 mins. I used nohup, I wonder if nohup hangs when the computer sleeps as would have happened over night? Who knows!</p>
-<p>The transfer of the files is done using <a href="https://wiki.irods.org/index.php/icommands">iRODS icommands</a>. The <a href="https://wiki.irods.org/index.php/iput">iput</a> function and a command similar to as given <a href="https://pods.iplantcollaborative.org/wiki/display/DS/Using+iCommands#UsingiCommands-Uploadingmultiplefilesoradirectory%28withrecursion%29">here</a>:</p>
-<pre><code>iput -P -V -b -r -T localDirectory dataDirectory</code></pre>
+<p>The transfer of the files is done using <a href="https://wiki.irods.org/index.php/icommands">iRODS icommands</a>. The <a href="https://wiki.irods.org/index.php/irsync">irsync</a> function is used. This has a number of advatages as rsync only moves over files that have changed or are not present.</p>
+<pre><code>irsync -v -r folder_of_seq_data i:Newlocation_on_data_store</code></pre>
+<p>the <code>i:folder</code> command tells irsync to move the folder to the datastore.</p>
 
 
 
